@@ -392,19 +392,19 @@ function initializePreloadedContent(startDate) {
 <p>I write to understand my place in time.</p>
 <p>I write to feel my relation to it all.</p>
 <p>I write to become free.</p>
-<p>I write to become me.</p>
-<p>And just like that, my next step is becoming clear.</p>
-<p>Give it a try.</p>
+<p>I write to become me.</p><p><br></p>
+<p>And just like that, my next step is becoming clear.</p><p><br></p>
+<p>Give it a try.</p><p><br></p>
 <p>
   Write what you don't know. Write what bothers you. Write how you feel. Write
   what you want. Write what you need.
-</p>
+</p><p><br></p>
 <p>Then ask.</p>
-<p>Ask to find out.</p>
+<p>Ask to find out.</p><p><br></p>
 <p>
-  The art is in knowing the right questions to ask. Practice is your tool. Do it
-  as often as you can. To connect with your source. To align with yourself.
-</p>
+  The art is in knowing the right questions to ask.</p><p><br></p><p>Practice is your tool.</p><p>Do it
+  as often as you can.</p><p>To connect with your source. To align with yourself.
+</p><p><br></p>
 <p>Ask and you shall find out.</p>`
 ];
     
