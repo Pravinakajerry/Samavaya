@@ -277,7 +277,9 @@ function initializePreloadedContent(startDate) {
   And don't imagine it. Just do it. ;) Then come back and tell me all about it.
   One page at a time.
 </p>`,
-  `<p>Isn't that love?</p>
+  `
+  <p>Act Without Ask</p><br>
+  <p>Isn't that love?</p>
 
 <p>
   Knowing what the other person needs and give it to them before they ask.
