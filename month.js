@@ -103,7 +103,7 @@ function renderLogs() {
 
     // Group logs by date + month
     const groupedLogs = logs.reduce((acc, log, index) => {
-        const dateKey = `${log.date}${log.month ? ` - ${log.month}` : ''}`;
+        const dateKey = `${log.date}${log.month ? ` ${log.month}` : ''}`;
         if (!acc[dateKey]) {
             acc[dateKey] = [];
         }
