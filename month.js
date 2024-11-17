@@ -35,41 +35,7 @@ function formatDate(date) {
     };
 }
 
-// Function to format time (keeping existing function)
-function formatTime(date) {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
-}
-
-// Function to get logs (keeping existing function)
-function getLogs() {
-    let logs = localStorage.getItem('journalLogs');
-    logs = logs ? JSON.parse(logs) : [];
-
-    // Migrate old logs to new format
-    let migrated = false;
-    logs.forEach((log, index) => {
-        if (!log.contentParts && log.content) {
-            log.contentParts = [{ type: 'text', description: log.content }];
-            delete log.content;
-            migrated = true;
-        }
-    });
-
-    if (migrated) {
-        saveLogs(logs);
-    }
-
-    return logs;
-}
-
-// Function to save logs (keeping existing function)
-function saveLogs(logs) {
-    localStorage.setItem('journalLogs', JSON.stringify(logs));
-}
-
-// Function to migrate dates to include months
+// Function to migrate existing logs to include months
 function migrateDatesToIncludeMonths() {
     let logs = getLogs();
     let modified = false;
@@ -89,11 +55,9 @@ function migrateDatesToIncludeMonths() {
     if (modified) {
         saveLogs(logs);
     }
-
-    return logs;
 }
 
-// Create date element function
+// Update the createDateElement function's date rendering part
 function createDateElement(date, month) {
     const dateWp = document.createElement('div');
     dateWp.classList.add('v2-date-wp');
@@ -101,17 +65,21 @@ function createDateElement(date, month) {
     const dateDiv = document.createElement('div');
     dateDiv.textContent = date;
     
+    // Add a space between date and month
+    const spaceText = document.createTextNode(' ');
+    
     const monthDiv = document.createElement('div');
     monthDiv.classList.add('dim');
-    monthDiv.textContent = ` ${month}`; // Just space without hyphen
+    monthDiv.textContent = month; // Remove the hyphen
     
     dateWp.appendChild(dateDiv);
+    dateWp.appendChild(spaceText); // Add space before month
     dateWp.appendChild(monthDiv);
     
     return dateWp;
 }
 
-// Updated addLog function to include month
+// Update the addLog function to include month
 function addLog(content) {
     const now = new Date();
     const dateInfo = formatDate(now);
@@ -129,17 +97,17 @@ function addLog(content) {
     renderLogs();
 }
 
-// Complete renderLogs function
+// Modify the renderLogs function's date handling
 function renderLogs() {
-    // Clear existing content
     contentContainer.innerHTML = '';
+    const logs = getLogs();
 
-    // Get and migrate logs
-    let logs = migrateDatesToIncludeMonths();
+    // Run migration if needed
+    migrateDatesToIncludeMonths();
 
     // Group logs by date + month
     const groupedLogs = logs.reduce((acc, log, index) => {
-        const dateKey = `${log.date} ${log.month || ''}`; // Space without hyphen
+        const dateKey = `${log.date} ${log.month || ''}`; // Remove hyphen from key
         if (!acc[dateKey]) {
             acc[dateKey] = [];
         }
@@ -153,7 +121,7 @@ function renderLogs() {
         dateLogWp.classList.add('v2-date-log');
 
         // Split date and month if present
-        const [date, month] = dateKey.split(/\s+(?=\w{3}$)/);
+        const [date, month] = dateKey.split(/\s(?=[A-Za-z]{3}$)/); // Split at last space before 3-letter month
         const dateWp = createDateElement(date, month);
         dateLogWp.appendChild(dateWp);
 
@@ -170,8 +138,3 @@ function renderLogs() {
         renderTaskComponent();
     }
 }
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-    renderLogs();
-});
